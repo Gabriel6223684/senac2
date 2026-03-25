@@ -1,0 +1,26 @@
+{
+  "name": "senac2",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Gabriel6223684/senac2#readme",
+  "bugs": {
+    "url": "https://github.com/Gabriel6223684/senac2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gabriel6223684/senac2.git"
+  },
+  "license": "MIT",
+  "author": "Gabriel Luiz da Silva",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "knex": "^3.2.5",
+    "pg": "^8.20.0"
+  }
+}
