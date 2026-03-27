@@ -1,9 +1,6 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.seed = async function (knex) {
-  const URL_PAISES = 'https://servicodados.ibge.gov.br/api/v1/paises';
+// Usa o fetch nativo do Node.js 18+ — sem necessidade de instalar node-fetch
+const URL_PAISES = 'https://servicodados.ibge.gov.br/api/v1/paises';
+export async function seed(knex) {
 
   // 1. BUSCA OS DADOS DO JSON VIA FETCH NATIVO DO NODE.JS
   const resposta = await fetch(URL_PAISES);
@@ -29,10 +26,8 @@ exports.seed = async function (knex) {
     const moeda = pais?.['unidades-monetarias']?.length
       ? pais['unidades-monetarias'].map((m) => m.nome).join(', ')
       : null;
-
     return { codigo, nome, localizacao, lingua, moeda };
   });
-
   // 4. INSERE EM LOTES DE 100 PARA MELHOR PERFORMANCE
   const batchSize = 100;
   for (let i = 0; i < dados.length; i += batchSize) {
@@ -40,6 +35,5 @@ exports.seed = async function (knex) {
     await knex('country').insert(lote);
     console.log(`Inseridos ${Math.min(i + batchSize, dados.length)} de ${dados.length} países`);
   }
-
   console.log('Seed de países concluída com sucesso!');
-};
+}
