@@ -1,35 +1,33 @@
 {% extends "layouts/main.html" %}
 
-{% block title %}Clientes{% endblock %}
+{% block title %}Produtos{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
 
-    <!-- Título + botão -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="mb-0 fw-semibold">
-            <i class="fa-solid fa-users me-2 text-primary"></i>
-            Lista de Clientes
-        </h4>
+    <h4 class="mb-4 fw-semibold">
+        <i class="fa-solid fa-box me-2 text-success"></i>
+        Lista de Produtos
+    </h4>
 
+    <div class="mb-3">
         <button class="btn btn-success d-flex align-items-center gap-2"
-            onclick="api.window.openModal('pages/customer', { width: 900, height: 600, title: 'Cadastrar Cliente' })">
+            onclick="api.window.openModal('pages/product', { width: 900, height: 600, title: 'Novo Produto' })">
             <i class="fa-solid fa-plus"></i>
-            Novo cliente
+            Novo Produto
         </button>
     </div>
 
-    <!-- Card da tabela -->
     <div class="card shadow-sm border-0">
         <div class="card-body">
 
-            <table id="table-customers" class="table table-hover align-middle mb-0" style="width: 100%;">
+            <table id="table-products" class="table table-hover align-middle mb-0" style="width: 100%;">
 
                 <thead class="table-light">
                     <tr>
                         <th style="width: 80px;">ID</th>
                         <th>Nome</th>
-                        <th>CPF</th>
+                        <th>Preço</th>
                         <th style="width: 150px;">Ações</th>
                     </tr>
                 </thead>
@@ -42,8 +40,9 @@
     </div>
 
 </div>
+
 {% endblock %}
 
 {% block scripts %}
-<script src="file:///{{ assets }}/pages/list-customer.js"></script>
+<script src="{{ assets }}/pages/list-product.js"></script>
 {% endblock %}

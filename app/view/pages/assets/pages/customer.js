@@ -1,4 +1,3 @@
-
 const InsertButton = document.getElementById('insert');
 const Action = document.getElementById('action')
 const Id = document.getElementById('id')
