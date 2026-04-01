@@ -1,0 +1,45 @@
+{% extends "layouts/main.html" %}
+
+{% block title %}Empresas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h4 class="mb-4 fw-semibold">
+        <i class="fa-solid fa-building me-2 text-info"></i>
+        Lista de Empresas
+    </h4>
+
+    <div class="mb-3">
+        <button class="btn btn-info d-flex align-items-center gap-2"
+            onclick="api.window.openModal('pages/enterprise', { width: 700, height: 450, title: 'Nova Empresa' })">
+            <i class="fa-solid fa-plus"></i>
+            Nova Empresa
+        </button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <table id="table-enterprises" class="table table-hover align-middle mb-0" style="width: 100%;">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>CNPJ</th>
+                        <th>Email</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script defer type="module" src="file:///{{ assets }}/js/list-enterprise.js"></script>
+{% endblock %}

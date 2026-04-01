@@ -33,7 +33,7 @@ export class Datatables {
                             offset: data?.start,
                             orderType: data.order[0]?.dir,
                             column: data.order[0]?.column
-                        };
+                        };                        
                         try {
                             const response = await apiFn(filter);
                             callback(response);

@@ -1,0 +1,59 @@
+{% extends "layouts/main.html" %}
+
+{% block title %}Nova Empresa{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h4 class="mb-4 fw-semibold">
+        <i class="fa-solid fa-building me-2 text-info"></i>
+        Cadastro de Empresa
+    </h4>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form id="enterprise-form">
+                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="action" name="action">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nome" name="nome" placeholder="example" required autofocus>
+                            <label for="nome">Nome da Empresa</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" required>
+                            <label for="cnpj">CNPJ</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@dominio.com">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-info d-flex align-items-center gap-2" id="insert">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Salvar Empresa
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="file:///{{ assets }}/js/enterprise.js"></script>
+{% endblock %}

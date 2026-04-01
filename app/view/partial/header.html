@@ -45,6 +45,33 @@
                             </button>
                         </li>
 
+                        <!-- Fornecedores -->
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2"
+                                onclick="api.window.open('pages/list-supplier', { title: 'Fornecedores' })">
+                                <i class="fa-solid fa-truck text-primary"></i>
+                                Fornecedores
+                            </button>
+                        </li>
+
+                        <!-- Empresas -->
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2"
+                                onclick="api.window.open('pages/list-enterprise', { title: 'Empresas' })">
+                                <i class="fa-solid fa-building text-info"></i>
+                                Empresas
+                            </button>
+                        </li>
+
+                        <!-- Usuários -->
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2"
+                                onclick="api.window.open('pages/list-user', { title: 'Usuários' })">
+                                <i class="fa-solid fa-users text-warning"></i>
+                                Usuários
+                            </button>
+                        </li>
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -64,6 +91,33 @@
                                 onclick="api.window.openModal('pages/product', { width: 900, height: 600, title: 'Novo Produto' })">
                                 <i class="fa-solid fa-plus text-secondary"></i>
                                 Novo Produto
+                            </button>
+                        </li>
+
+                        <!-- Novo Fornecedor -->
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2"
+                                onclick="api.window.openModal('pages/supplier', { width: 800, height: 500, title: 'Novo Fornecedor' })">
+                                <i class="fa-solid fa-truck text-secondary"></i>
+                                Novo Fornecedor
+                            </button>
+                        </li>
+
+                        <!-- Nova Empresa -->
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2"
+                                onclick="api.window.openModal('pages/enterprise', { width: 700, height: 450, title: 'Nova Empresa' })">
+                                <i class="fa-solid fa-building text-secondary"></i>
+                                Nova Empresa
+                            </button>
+                        </li>
+
+                        <!-- Novo Usuário -->
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center gap-2"
+                                onclick="api.window.openModal('pages/user', { width: 800, height: 550, title: 'Novo Usuário' })">
+                                <i class="fa-solid fa-user-plus text-secondary"></i>
+                                Novo Usuário
                             </button>
                         </li>
 

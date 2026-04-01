@@ -1,60 +1,65 @@
-// Função para carregar produtos na tabela
-async function carregarProdutos() {
-    try {
-        // Busca produtos do banco
-        const produtos = await window.api.product.find({ excluido: false });
-
-        const tbody = document.querySelector('#table-products tbody');
-        tbody.innerHTML = ''; // limpa linhas antigas
-
-        produtos.forEach(p => {
-            const tr = document.createElement('tr');
-
-            tr.innerHTML = `
-                <td>${p.id}</td>
-                <td>${p.nome}</td>
-                <td>R$ ${Number(p.preco_venda || 0).toFixed(2)}</td>
-                <td>
-                    <button class="btn btn-sm btn-primary me-2" onclick="editarProduto(${p.id})">
-                        Editar
-                    </button>
-                    <button class="btn btn-sm btn-danger" onclick="deletarProduto(${p.id})">
-                        Excluir
-                    </button>
-                </td>
+import { Datatables } from "../components/Datatables.js"
+api.product.onReload(() => {
+    $('#table-products').DataTable().ajax.reload(null, false);
+});
+// Inicializa a tabela
+Datatables.SetTable('#table-products', [
+    { data: 'id' },
+    { data: 'nome' },
+    { data: 'codigo_barra' },
+    { data: 'unidade' },
+    {
+        data: 'preco_compra',
+        render: function (data) {
+            const p = parseFloat(data || 0);
+            return p.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+    },
+    {
+        data: 'preco_venda',
+        render: function (data) {
+            const p = parseFloat(data || 0);
+            return p.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+    },
+    {
+        data: 'ativo',
+        render: function (data) {
+            return data
+                ? `<span>Ativo <i class="fa-regular fa-square-check"></i></span>`
+                : `<span>Inativo <i class="fa-regular fa-square-full"></i></span>`;
+        }
+    },
+    {
+        data: 'criado_em',
+        render: function (data) {
+            return new Date(data).toLocaleString('pt-BR');
+        }
+    },
+    {
+        data: 'atualizado_em',
+        render: function (data) {
+            return new Date(data).toLocaleString('pt-BR');
+        }
+    },
+    {
+        data: null,
+        orderable: false,
+        searchable: false,
+        render: function (row) {
+            return `
+                <button onclick="editProduct(${row.id})" class="btn btn-xs btn-warning btn-sm">
+                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                </button>
+                <button onclick="deleteProduct(${row.id})" class="btn btn-xs btn-danger btn-sm">
+                    <i class="fa-solid fa-trash"></i> Excluir
+                </button>
             `;
-
-            tbody.appendChild(tr);
-        });
-
-        // Inicializa DataTables depois de preencher as linhas
-        $('#table-products').DataTable({
-            destroy: true, // destrói qualquer instância anterior
-            paging: true,
-            searching: true,
-            ordering: true,
-            info: true
-        });
-
-    } catch (err) {
-        console.error('Erro ao carregar produtos:', err);
+        }
     }
-}
-
-// Função para editar produto
-async function editarProduto(id) {
-    const produto = await api.product.findById(id);
-    if (!produto) {
-        toast('error', 'Erro', 'Produto não encontrado.');
-        return;
-    }
-    await api.temp.set('product:edit', { action: 'e', ...produto });
-    api.window.openModal('pages/product', { width: 900, height: 600, title: 'Editar Produto' });
-}
-
-// Função para deletar produto
-async function deletarProduto(id) {
-    const confirm = await Swal.fire({
+]).getData(filter => api.product.find(filter));
+async function deleteProduct(id) {
+    const result = await Swal.fire({
         title: 'Tem certeza?',
         text: 'Esta ação não pode ser desfeita.',
         icon: 'warning',
@@ -63,23 +68,39 @@ async function deletarProduto(id) {
         cancelButtonText: 'Cancelar',
     });
 
-    if (confirm.isConfirmed) {
-        const result = await api.product.delete(id);
-        if (result.status) {
-            toast('success', 'Excluído', result.msg);
-            carregarProdutos(); // recarrega tabela
+    if (result.isConfirmed) {
+        const response = await api.product.delete(id);
+
+        if (response.status) {
+            toast('success', 'Excluído', response.msg);
+            $('#table-products').DataTable().ajax.reload();
         } else {
-            toast('error', 'Erro', result.msg);
+            toast('error', 'Erro', response.msg);
         }
     }
 }
-
-// Atualiza tabela quando o backend sinaliza reload
-window.api.product.onReload(carregarProdutos);
-
-// Chama ao carregar a página
-document.addEventListener('DOMContentLoaded', carregarProdutos);
-
-// Expor funções para HTML
-window.editarProduto = editarProduto;
-window.deletarProduto = deletarProduto;
+async function editProduct(id) {
+    try {
+        // 1. Busca os dados completos do cliente
+        const product = await api.product.findById(id);
+        if (!product) {
+            toast('error', 'Erro', 'Produto não encontrado.');
+            return;
+        }
+        // 2. Salva no temp store com a ação 'e' (editar)
+        await api.temp.set('product:edit', {
+            action: 'e',
+            ...product,
+        });
+        // 3. Abre a modal
+        api.window.openModal('pages/product', {
+            width: 1200,
+            height: 420,
+            title: 'Editar Produto',
+        });
+    } catch (err) {
+        toast('error', 'Falha', 'Erro: ' + err.message);
+    }
+}
+window.deleteProduct = deleteProduct;
+window.editProduct = editProduct;
