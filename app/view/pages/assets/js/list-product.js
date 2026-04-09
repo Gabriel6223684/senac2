@@ -18,7 +18,7 @@ Datatables.SetTable('#table-products', [
     {
         data: 'preco_venda',
         render: function (data) {
-            const p = parseFloat(data || 0);
+            const p = parseFloat(data || 0);  // já está em reais
             return p.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
     },

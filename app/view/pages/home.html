@@ -2,6 +2,11 @@
 
 {% block title %}DESKIVO — Home{% endblock %}
 
+{% block styles %}
+<link rel="stylesheet" href="file:///{{ assets }}/css/home.css">
+
+{% endblock %}
+
 {% block menu %}
 {% include "../partial/header.html" %}
 {% endblock %}
@@ -108,14 +113,4 @@
 
 </div>
 
-<style>
-    .cursor-pointer {
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .cursor-pointer:hover {
-        transform: translateY(-3px);
-    }
-</style>
 {% endblock %}

@@ -60,8 +60,11 @@ export default class Product {
         if (!data.nome || data.nome.trim() === '') {
             return { status: false, msg: 'Nome é obrigatório', id: null, data: [] };
         }
-        if (!data.preco_venda || data.preco_venda <= 0) {
+        if (!data.preco_venda || parseFloat(data.preco_venda) <= 0) {
             return { status: false, msg: 'Preço de venda é obrigatório e deve ser > 0', id: null, data: [] };
+        }
+        if (!data.unidade || data.unidade.trim() === '') {
+            return { status: false, msg: 'Unidade é obrigatória', id: null, data: [] };
         }
 
         try {
@@ -109,11 +112,25 @@ export default class Product {
     static #sanitize(data) {
         const ignore = ['id', 'action'];
         const clean = {};
+
         for (const [key, value] of Object.entries(data)) {
             if (ignore.includes(key)) continue;
             if (value === '' || value === null || value === undefined) continue;
-            clean[key] = value;
+
+            if (['preco_compra', 'preco_venda', 'margem_lucro'].includes(key)) {
+                // Remove pontos de milhar, troca vírgula decimal por ponto e converte para float
+                clean[key] = parseFloat(
+                    String(value)
+                        .replace(/\./g, '')   // remove pontos de milhar
+                        .replace(',', '.')    // troca vírgula decimal por ponto
+                        .replace('R$ ', '')   // remove prefixo R$ se houver
+                        .replace('% ', '')    // remove % se houver
+                ) || 0;
+            } else {
+                clean[key] = value;
+            }
         }
+
         return clean;
     }
 }
