@@ -35,6 +35,22 @@ window.gerarPDF = function () {
                 Documento gerado automaticamente pelo sistema
             </div>
         </div>
+        <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 6px;
+    }
+
+    th {
+        background: #f0f0f0;
+    }
+</style>
     `;
 
     // 🔹 cria elemento temporário (não polui a tela)
